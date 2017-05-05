@@ -16,103 +16,105 @@ namespace PlantParenthood.Controllers
     {
         private PlantParenthoodContext db = new PlantParenthoodContext();
 
-        // GET: api/CareDatas
+        // GET: api/CareDatas/GetCareData
+        [ActionName("GetCareData")]
+        [HttpGet]
         public IQueryable<CareData> GetCareDatas()
         {
             return db.CareDatas;
         }
 
         // GET: api/CareDatas/5
-        [ResponseType(typeof(CareData))]
-        public IHttpActionResult GetCareData(int id)
-        {
-            CareData careData = db.CareDatas.Find(id);
-            if (careData == null)
-            {
-                return NotFound();
-            }
+        //[ResponseType(typeof(CareData))]
+        //public IHttpActionResult GetCareData(int id)
+        //{
+        //    CareData careData = db.CareDatas.Find(id);
+        //    if (careData == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return Ok(careData);
-        }
+        //    return Ok(careData);
+        //}
 
-        // PUT: api/CareDatas/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutCareData(int id, CareData careData)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //// PUT: api/CareDatas/5
+        //[ResponseType(typeof(void))]
+        //public IHttpActionResult PutCareData(int id, CareData careData)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            if (id != careData.CareInfoID)
-            {
-                return BadRequest();
-            }
+        //    if (id != careData.CareInfoID)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            db.Entry(careData).State = EntityState.Modified;
+        //    db.Entry(careData).State = EntityState.Modified;
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CareDataExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        db.SaveChanges();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!CareDataExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return StatusCode(HttpStatusCode.NoContent);
-        }
+        //    return StatusCode(HttpStatusCode.NoContent);
+        //}
 
-        // POST: api/CareDatas
-        [ResponseType(typeof(CareData))]
-        public IHttpActionResult PostCareData(CareData careData)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //// POST: api/CareDatas
+        //[ResponseType(typeof(CareData))]
+        //public IHttpActionResult PostCareData(CareData careData)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            db.CareDatas.Add(careData);
-            db.SaveChanges();
+        //    db.CareDatas.Add(careData);
+        //    db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = careData.CareInfoID }, careData);
-        }
+        //    return CreatedAtRoute("DefaultApi", new { id = careData.CareInfoID }, careData);
+        //}
 
-        // DELETE: api/CareDatas/5
-        [ResponseType(typeof(CareData))]
-        public IHttpActionResult DeleteCareData(int id)
-        {
-            CareData careData = db.CareDatas.Find(id);
-            if (careData == null)
-            {
-                return NotFound();
-            }
+        //// DELETE: api/CareDatas/5
+        //[ResponseType(typeof(CareData))]
+        //public IHttpActionResult DeleteCareData(int id)
+        //{
+        //    CareData careData = db.CareDatas.Find(id);
+        //    if (careData == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            db.CareDatas.Remove(careData);
-            db.SaveChanges();
+        //    db.CareDatas.Remove(careData);
+        //    db.SaveChanges();
 
-            return Ok(careData);
-        }
+        //    return Ok(careData);
+        //}
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
 
-        private bool CareDataExists(int id)
-        {
-            return db.CareDatas.Count(e => e.CareInfoID == id) > 0;
-        }
+        //private bool CareDataExists(int id)
+        //{
+        //    return db.CareDatas.Count(e => e.CareInfoID == id) > 0;
+        //}
     }
 }
