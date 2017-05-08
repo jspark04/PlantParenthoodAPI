@@ -32,9 +32,9 @@ namespace PlantParenthood.Migrations
             context.CareDatas.AddOrUpdate(p => p.PlantName,
                     new CareData
                     {
-                        PlantName = "Warm-season plant",
+                        PlantName = "Rosemary",
                         SoilMoisture = 60,
-                        Light = 100,
+                        Light = 800,
                         Temperature = 70,
                         Humidity = 20,
                         Owned = true,
@@ -42,12 +42,12 @@ namespace PlantParenthood.Migrations
                     },
                     new CareData
                     {
-                        PlantName = "Cold-season plant",
+                        PlantName = "Lavender",
                         SoilMoisture = 60,
-                        Light = 100,
+                        Light = 800,
                         Temperature = 60,
                         Humidity = 20,
-                        Owned = false,
+                        Owned = true,
                         Current = false
                     }
                     );
@@ -57,29 +57,47 @@ namespace PlantParenthood.Migrations
                         new SensorData
                         {
                             CareInfoID = 1,
-                            CreatedDate = DateTime.ParseExact("2017-04-01 17:00:00", "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
+                            CreatedDate = DateTime.ParseExact("2017-05-07 09:00:00", "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
                             SoilMoisture = 30,
-                            Light = 60,
+                            Light = 20,
                             Temperature = 50,
-                            Humidity = 10
+                            Humidity = 10,
+                            LightSumDay = 0,
+                            SoilMoistureCondition = 1,
+                            LightCondition = 1,
+                            TemperatureCondition = 1,
+                            HumidityCondition = 1,
+                            LightSumDayCondition = 1
                         },
                         new SensorData
                         {
                             CareInfoID = 1,
-                            CreatedDate = DateTime.ParseExact("2017-04-01 17:00:10", "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
+                            CreatedDate = DateTime.ParseExact("2017-05-07 12:00:00", "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
                             SoilMoisture = 40,
-                            Light = 60,
+                            Light = 80,
                             Temperature = 50,
-                            Humidity = 13
+                            Humidity = 13,
+                            LightSumDay = 0,
+                            SoilMoistureCondition = 1,
+                            LightCondition = 1,
+                            TemperatureCondition = 1,
+                            HumidityCondition = 1,
+                            LightSumDayCondition = 1
                         },
                         new SensorData
                         {
                             CareInfoID = 1,
-                            CreatedDate = DateTime.ParseExact("2017-04-01 17:00:20", "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
+                            CreatedDate = DateTime.ParseExact("2017-05-07 18:00:00", "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
                             SoilMoisture = 60,
-                            Light = 65,
+                            Light = 40,
                             Temperature = 50,
-                            Humidity = 15
+                            Humidity = 15,
+                            LightSumDay = 800,
+                            SoilMoistureCondition = 1,
+                            LightCondition = 1,
+                            TemperatureCondition = 3,
+                            HumidityCondition = 2,
+                            LightSumDayCondition = 1
                         }
                     );
         }

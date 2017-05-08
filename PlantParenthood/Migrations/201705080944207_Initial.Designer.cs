@@ -13,7 +13,7 @@ namespace PlantParenthood.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201705051940593_Initial"; }
+            get { return "201705080944207_Initial"; }
         }
         
         string IMigrationMetadata.Source

@@ -18,5 +18,11 @@ namespace PlantParenthood.Models
         public float Light { get; set; }
         public float Temperature { get; set; }
         public float Humidity { get; set; }
+        public float LightSumDay { get; set; }
+        public int SoilMoistureCondition { get; set; }
+        public int LightCondition { get; set; }
+        public int TemperatureCondition { get; set; }
+        public int HumidityCondition { get; set; }
+        public int LightSumDayCondition { get; set; }
     }
 }

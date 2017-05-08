@@ -9,6 +9,9 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using PlantParenthood.Models;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 namespace PlantParenthood.Controllers
 {
@@ -43,6 +46,164 @@ namespace PlantParenthood.Controllers
                                 select entry).FirstOrDefault();
             int currentCareInfoID = currentPlant.CareInfoID;
 
+            // Calculate average daily light from this point.
+            var endTime = DateTime.Now;
+            var startTime = DateTime.Now.AddDays(-1);
+            // Getting sensor data over last 24 hours of sensor data
+            var currentSensorData = (from entry in db.SensorDatas
+                                     where entry.CareInfoID == currentCareInfoID && entry.CreatedDate >= startTime && entry.CreatedDate <= endTime
+                                     orderby entry.CreatedDate ascending
+                                     select entry);
+            // Loop over, estimate light integral using trapezoidal method
+            bool isFirstLoop = true;
+            float prevLight = 0;
+            float lightSum = 0;
+            float averagelight = 0;
+            var dt = (endTime - startTime).Hours;
+            foreach (var datapoint in currentSensorData)
+            {
+                // Delta T in hours
+                dt = (datapoint.CreatedDate - startTime).Hours;
+                startTime = datapoint.CreatedDate;
+                // Light
+                if (isFirstLoop)
+                {
+                    averagelight = datapoint.Light;
+                    prevLight = datapoint.Light;
+                    isFirstLoop = false;
+                } else
+                {
+                    averagelight = (datapoint.Light + prevLight)/2;
+                    prevLight = datapoint.Light;
+                }
+                lightSum = lightSum + dt * averagelight;
+            }
+            // Now add latest point to lightSum
+            dt = (endTime - startTime).Hours;
+            averagelight = (Light + prevLight) / 2;
+            lightSum = lightSum + dt * averagelight;
+
+            // Need to add code to get conditionals
+            // Condition key: 1 = Very Low, 2 = Low, 3 = Good, 4 = High, 5 = Very High
+            double stretch = 0.1;
+            double danger = 0.3;
+            int smcond = 3;
+            int lcond = 3;
+            int tcond = 3;
+            int hcond = 3;
+            int lsdcond = 3;
+            if (SoilMoisture >= currentPlant.SoilMoisture * (1-stretch) && SoilMoisture <= currentPlant.SoilMoisture * (1+stretch))
+            {
+                smcond = 3;
+            } else if (SoilMoisture >= currentPlant.SoilMoisture * (1 - danger) && SoilMoisture <= currentPlant.SoilMoisture * (1 + danger))
+            {
+                if (SoilMoisture > currentPlant.SoilMoisture)
+                {
+                    smcond = 4;
+                } else
+                {
+                    smcond = 2;
+                }
+            } else
+            {
+                if (SoilMoisture > currentPlant.SoilMoisture)
+                {
+                    smcond = 5;
+                }
+                else
+                {
+                    smcond = 1;
+                }
+            }
+            if (Temperature >= currentPlant.Temperature * (1 - stretch) && Temperature <= currentPlant.Temperature * (1 + stretch))
+            {
+                tcond = 3;
+            }
+            else if (Temperature >= currentPlant.Temperature * (1 - danger) && Temperature <= currentPlant.Temperature * (1 + danger))
+            {
+                if (Temperature > currentPlant.Temperature)
+                {
+                    tcond = 4;
+                }
+                else
+                {
+                    tcond = 2;
+                }
+            }
+            else
+            {
+                if (Temperature > currentPlant.Temperature)
+                {
+                    tcond = 5;
+                }
+                else
+                {
+                    tcond = 1;
+                }
+            }
+            if (Humidity >= currentPlant.Humidity * (1 - stretch) && Humidity <= currentPlant.Humidity * (1 + stretch))
+            {
+                hcond = 3;
+            }
+            else if (Humidity >= currentPlant.Humidity * (1 - danger) && Humidity <= currentPlant.Humidity * (1 + danger))
+            {
+                if (Humidity > currentPlant.Humidity)
+                {
+                    hcond = 4;
+                }
+                else
+                {
+                    hcond = 2;
+                }
+            }
+            else
+            {
+                if (Humidity > currentPlant.Humidity)
+                {
+                    hcond = 5;
+                }
+                else
+                {
+                    hcond = 1;
+                }
+            }
+            if (lightSum >= currentPlant.Light * (1 - stretch) && lightSum <= currentPlant.Light * (1 + stretch))
+            {
+                lsdcond = 3;
+            }
+            else if (lightSum >= currentPlant.Light * (1 - danger) && lightSum <= currentPlant.Light * (1 + danger))
+            {
+                if (lightSum > currentPlant.Light)
+                {
+                    lsdcond = 4;
+                }
+                else
+                {
+                    lsdcond = 2;
+                }
+            }
+            else
+            {
+                if (lightSum > currentPlant.Light)
+                {
+                    lsdcond = 5;
+                }
+                else
+                {
+                    lsdcond = 1;
+                }
+            }
+
+            // TWILIO!
+            TwilioClient.Init("ACcca828a317b9f85748e680366b1d513f", "64fdbffc4058b616cf7f2a10de5588b8");
+
+            var message = MessageResource.Create(
+                new PhoneNumber("+16124188780"),
+                from: new PhoneNumber("+17634529896"),
+                body: "Sensor data added!"
+            );
+            Console.WriteLine(message.Sid);
+
             // Create new sensordata object containing complete information to write into db
             SensorData sensorData = new SensorData
             {
@@ -51,8 +212,18 @@ namespace PlantParenthood.Controllers
                 Temperature = Temperature,
                 Humidity = Humidity,
                 CreatedDate = DateTime.Now,
-                CareInfoID = currentCareInfoID
+                CareInfoID = currentCareInfoID,
+                LightSumDay = lightSum,
+                SoilMoistureCondition = smcond,
+                LightCondition = lcond,
+                TemperatureCondition = tcond,
+                HumidityCondition = hcond,
+                LightSumDayCondition = lsdcond
             };
+
+            // Need to add Twilio notification functionality here if time permits
+
+            
 
             db.SensorDatas.Add(sensorData);
             db.SaveChanges();
