@@ -33,9 +33,9 @@ namespace PlantParenthood.Migrations
                     new CareData
                     {
                         PlantName = "Rosemary",
-                        SoilMoisture = 60,
-                        Light = 800,
-                        Temperature = 70,
+                        SoilMoisture = 70,
+                        Light = 700,
+                        Temperature = 21,
                         Humidity = 20,
                         Owned = true,
                         Current = true
@@ -44,8 +44,8 @@ namespace PlantParenthood.Migrations
                     {
                         PlantName = "Lavender",
                         SoilMoisture = 60,
-                        Light = 800,
-                        Temperature = 60,
+                        Light = 600,
+                        Temperature = 21,
                         Humidity = 20,
                         Owned = true,
                         Current = false
@@ -53,48 +53,48 @@ namespace PlantParenthood.Migrations
                     );
             
             // Adding seed data for sensors... remove when ready
-            context.SensorDatas.AddOrUpdate(p => p.SoilMoisture,
+            context.SensorDatas.AddOrUpdate(p => p.CreatedDate,
                         new SensorData
                         {
                             CareInfoID = 1,
-                            CreatedDate = DateTime.ParseExact("2017-05-07 09:00:00", "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
+                            CreatedDate = DateTime.ParseExact("2017-05-08 09:00:00", "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
                             SoilMoisture = 30,
                             Light = 20,
-                            Temperature = 50,
+                            Temperature = 31,
                             Humidity = 10,
                             LightSumDay = 0,
-                            SoilMoistureCondition = 1,
-                            LightCondition = 1,
-                            TemperatureCondition = 1,
-                            HumidityCondition = 1,
-                            LightSumDayCondition = 1
+                            SoilMoistureCondition = 3,
+                            LightCondition = 3,
+                            TemperatureCondition = 3,
+                            HumidityCondition = 3,
+                            LightSumDayCondition = 3
                         },
                         new SensorData
                         {
                             CareInfoID = 1,
-                            CreatedDate = DateTime.ParseExact("2017-05-07 12:00:00", "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
+                            CreatedDate = DateTime.ParseExact("2017-05-08 12:00:00", "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
                             SoilMoisture = 40,
                             Light = 80,
-                            Temperature = 50,
+                            Temperature = 29,
                             Humidity = 13,
                             LightSumDay = 0,
-                            SoilMoistureCondition = 1,
-                            LightCondition = 1,
-                            TemperatureCondition = 1,
-                            HumidityCondition = 1,
-                            LightSumDayCondition = 1
+                            SoilMoistureCondition = 3,
+                            LightCondition = 3,
+                            TemperatureCondition = 3,
+                            HumidityCondition = 3,
+                            LightSumDayCondition = 2
                         },
                         new SensorData
                         {
                             CareInfoID = 1,
-                            CreatedDate = DateTime.ParseExact("2017-05-07 18:00:00", "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
+                            CreatedDate = DateTime.ParseExact("2017-05-08 18:00:00", "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
                             SoilMoisture = 60,
                             Light = 40,
-                            Temperature = 50,
+                            Temperature = 23,
                             Humidity = 15,
                             LightSumDay = 800,
-                            SoilMoistureCondition = 1,
-                            LightCondition = 1,
+                            SoilMoistureCondition = 2,
+                            LightCondition = 2,
                             TemperatureCondition = 3,
                             HumidityCondition = 2,
                             LightSumDayCondition = 1

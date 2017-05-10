@@ -195,14 +195,125 @@ namespace PlantParenthood.Controllers
             }
 
             // TWILIO!
-            TwilioClient.Init("ACcca828a317b9f85748e680366b1d513f", "64fdbffc4058b616cf7f2a10de5588b8");
 
-            var message = MessageResource.Create(
-                new PhoneNumber("+16124188780"),
-                from: new PhoneNumber("+17634529896"),
-                body: "Sensor data added!"
-            );
-            Console.WriteLine(message.Sid);
+            // First check if there is something wrong with the plant
+            bool isSomethingWrong = false;
+            string messageToUser = "";
+            string conditionmessage = "";
+            if ((smcond == 1 || smcond == 5) || (tcond == 1 || tcond == 5) || (hcond == 1 || hcond == 5) || (lsdcond == 1 || lsdcond == 5))
+            {
+                messageToUser = "Your " + currentPlant.PlantName + " needs: ";
+                isSomethingWrong = true;
+                if (smcond == 1)
+                {
+                    if (conditionmessage == "")
+                    {
+                        conditionmessage = conditionmessage + "more water";
+                    } else
+                    {
+                        conditionmessage = conditionmessage + ", more water";
+                    }
+                    
+                }
+                if (smcond == 5)
+                {
+                    if (conditionmessage == "")
+                    {
+                        conditionmessage = conditionmessage + "less water";
+                    }
+                    else
+                    {
+                        conditionmessage = conditionmessage + ", less water";
+                    }
+
+                }
+                if (tcond == 1)
+                {
+                    if (conditionmessage == "")
+                    {
+                        conditionmessage = conditionmessage + "warmer temperature";
+                    }
+                    else
+                    {
+                        conditionmessage = conditionmessage + ", warmer temperature";
+                    }
+
+                }
+                if (tcond == 5)
+                {
+                    if (conditionmessage == "")
+                    {
+                        conditionmessage = conditionmessage + "cooler temperature";
+                    }
+                    else
+                    {
+                        conditionmessage = conditionmessage + ", cooler temperature";
+                    }
+
+                }
+                if (hcond == 1)
+                {
+                    if (conditionmessage == "")
+                    {
+                        conditionmessage = conditionmessage + "more humid environment";
+                    }
+                    else
+                    {
+                        conditionmessage = conditionmessage + ", more humid environment";
+                    }
+
+                }
+                if (hcond == 5)
+                {
+                    if (conditionmessage == "")
+                    {
+                        conditionmessage = conditionmessage + "less humid environment";
+                    }
+                    else
+                    {
+                        conditionmessage = conditionmessage + ", less humid environment";
+                    }
+
+                }
+                if (lsdcond == 1)
+                {
+                    if (conditionmessage == "")
+                    {
+                        conditionmessage = conditionmessage + "more light";
+                    }
+                    else
+                    {
+                        conditionmessage = conditionmessage + ", more light";
+                    }
+
+                }
+                if (lsdcond == 5)
+                {
+                    if (conditionmessage == "")
+                    {
+                        conditionmessage = conditionmessage + "less light";
+                    }
+                    else
+                    {
+                        conditionmessage = conditionmessage + ", less light";
+                    }
+
+                }
+            }
+
+            // COMMENT OUT WHEN READY TO DEMO
+            isSomethingWrong = false;
+            if (isSomethingWrong)
+            {
+                TwilioClient.Init("ACcca828a317b9f85748e680366b1d513f", "64fdbffc4058b616cf7f2a10de5588b8");
+
+                var message = MessageResource.Create(
+                    new PhoneNumber("+16124188780"),
+                    from: new PhoneNumber("+17634529896"),
+                    body: messageToUser + conditionmessage
+                );
+                Console.WriteLine(message.Sid);
+            }
 
             // Create new sensordata object containing complete information to write into db
             SensorData sensorData = new SensorData
