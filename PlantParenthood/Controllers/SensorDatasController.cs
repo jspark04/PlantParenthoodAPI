@@ -24,7 +24,11 @@ namespace PlantParenthood.Controllers
         [HttpGet]
         public IQueryable<SensorData> GetSensorDatas()
         {
-            return db.SensorDatas;
+            var last40PointsOfSensorData = (from entry in db.SensorDatas
+                                     orderby entry.CreatedDate descending
+                                     select entry).Take(40).OrderBy(p => p.CreatedDate);
+
+            return last40PointsOfSensorData;
         }
 
         // Custom route for Kevin
@@ -301,8 +305,15 @@ namespace PlantParenthood.Controllers
                 }
             }
 
-            // COMMENT OUT WHEN READY TO DEMO
-            isSomethingWrong = false;
+            // Has user enabled Twilio?
+            bool isTwilioEnabled = (from entry in db.AppSettings
+                                     where entry.Name == "TwilioEnabled"
+                                     select entry).FirstOrDefault().Value;
+            if (!isTwilioEnabled)
+            {
+                isSomethingWrong = false;
+            }
+            
             if (isSomethingWrong)
             {
                 TwilioClient.Init("ACcca828a317b9f85748e680366b1d513f", "64fdbffc4058b616cf7f2a10de5588b8");

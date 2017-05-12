@@ -28,6 +28,15 @@ namespace PlantParenthood.Migrations
             //    );
             //
 
+            // Adding seed data for app settings
+            context.AppSettings.AddOrUpdate(p => p.AppSettingsID,
+                    new AppSettings
+                    {
+                        Name = "TwilioEnabled",
+                        Value = false
+                    }
+                    );
+
             // Adding seed data for plant care metrics
             context.CareDatas.AddOrUpdate(p => p.PlantName,
                     new CareData

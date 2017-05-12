@@ -22,5 +22,7 @@ namespace PlantParenthood.Models
         public System.Data.Entity.DbSet<PlantParenthood.Models.SensorData> SensorDatas { get; set; }
 
         public System.Data.Entity.DbSet<PlantParenthood.Models.CareData> CareDatas { get; set; }
+
+        public System.Data.Entity.DbSet<PlantParenthood.Models.AppSettings> AppSettings { get; set; }
     }
 }
