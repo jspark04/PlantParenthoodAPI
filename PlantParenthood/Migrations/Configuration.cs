@@ -52,7 +52,8 @@ namespace PlantParenthood.Migrations
                         Temperature = 21,
                         Humidity = 20,
                         Owned = true,
-                        Current = true
+                        Current = true,
+                        ImageURL = "./assets/img/plant2.jpg"
                     },
                     new CareData
                     {
@@ -62,7 +63,30 @@ namespace PlantParenthood.Migrations
                         Temperature = 21,
                         Humidity = 20,
                         Owned = true,
-                        Current = false
+                        Current = false,
+                        ImageURL = "./assets/img/plant1.png"
+                    },
+                    new CareData
+                    {
+                        PlantName = "African Violet",
+                        SoilMoisture = 60,
+                        Light = 600,
+                        Temperature = 21,
+                        Humidity = 20,
+                        Owned = true,
+                        Current = false,
+                        ImageURL = "./assets/img/plant1.png"
+                    },
+                    new CareData
+                     {
+                        PlantName = "Aloe Vera",
+                        SoilMoisture = 60,
+                        Light = 800,
+                        Temperature = 21,
+                        Humidity = 25,
+                        Owned = false,
+                        Current = false,
+                        ImageURL = "./assets/img/plant1.png"
                     }
                     );
             

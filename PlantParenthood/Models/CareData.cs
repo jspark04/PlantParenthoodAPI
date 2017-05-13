@@ -18,5 +18,6 @@ namespace PlantParenthood.Models
         public float Humidity { get; set; }
         public bool Owned { get; set; }
         public bool Current { get; set; }
+        public string ImageURL { get; set; }
     }
 }
