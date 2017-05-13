@@ -12,6 +12,6 @@ namespace PlantParenthood.Models
         public int AppSettingsID { get; set; }
 
         public string Name { get; set; }
-        public bool Value { get; set; }
+        public string Value { get; set; }
     }
 }

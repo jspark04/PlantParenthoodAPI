@@ -306,9 +306,12 @@ namespace PlantParenthood.Controllers
             }
 
             // Has user enabled Twilio?
-            bool isTwilioEnabled = (from entry in db.AppSettings
+            bool isTwilioEnabled = ((from entry in db.AppSettings
                                      where entry.Name == "TwilioEnabled"
-                                     select entry).FirstOrDefault().Value;
+                                     select entry).FirstOrDefault().Value == "true");
+            string twilioPhoneNumber = (from entry in db.AppSettings
+                                        where entry.Name == "TwilioNumber"
+                                        select entry).FirstOrDefault().Value;
             if (!isTwilioEnabled)
             {
                 isSomethingWrong = false;
@@ -320,7 +323,7 @@ namespace PlantParenthood.Controllers
 
                 var message = MessageResource.Create(
                     new PhoneNumber("+16124188780"),
-                    from: new PhoneNumber("+17634529896"),
+                    from: new PhoneNumber("+1" + twilioPhoneNumber),
                     body: messageToUser + conditionmessage
                 );
                 Console.WriteLine(message.Sid);

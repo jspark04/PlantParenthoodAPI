@@ -29,11 +29,16 @@ namespace PlantParenthood.Migrations
             //
 
             // Adding seed data for app settings
-            context.AppSettings.AddOrUpdate(p => p.AppSettingsID,
+            context.AppSettings.AddOrUpdate(p => p.Name,
                     new AppSettings
                     {
                         Name = "TwilioEnabled",
-                        Value = false
+                        Value = "false"
+                    },
+                    new AppSettings
+                    {
+                        Name = "TwilioNumber",
+                        Value = "6124188780"
                     }
                     );
 

@@ -26,10 +26,9 @@ namespace PlantParenthood.Controllers
 
         // Custom route for Kevin
         //[Route("SensorAddResult")]
-        [ResponseType(typeof(void))]
         [ActionName("UpdateAppSettings")]
         [HttpGet]
-        public IHttpActionResult UpdateAppSettings(int appsettingsid, string name, bool value)
+        public IHttpActionResult UpdateAppSettings(int appsettingsid, string name, string value)
         {
             /*
             // float SoilMoisture, float Light, float Temperature, float Humidity
@@ -72,7 +71,7 @@ namespace PlantParenthood.Controllers
             catch { 
 }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(appSettingsEntryToBeUpdated);
         }
 
         /*
